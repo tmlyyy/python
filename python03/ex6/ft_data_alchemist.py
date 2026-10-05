@@ -36,7 +36,7 @@ def main() -> None:
     print(f"Score dict: {score_dict}")
 
     # 4. Cálculos estatísticos da média
-    total_scores = sum(score_dict.values())
+    total_scores = sum(score_dict[name] for name in score_dict)
     total_len = len(score_dict)
     avg_score = (
         float(total_scores) / total_len if total_len > 0 else 0.0
@@ -45,9 +45,9 @@ def main() -> None:
 
     # 5. Filtra apenas os jogadores com pontuação acima da média
     high_scores: dict[str, int] = {
-        name: score
-        for name, score in score_dict.items()
-        if score > avg_score
+        name: score_dict[name]
+        for name in score_dict
+        if score_dict[name] > avg_score
     }
     print(f"High scores: {high_scores}")
 

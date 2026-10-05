@@ -18,13 +18,16 @@ def main() -> None:
         file_obj = open(filename, "r")
         content: str = file_obj.read()
         print("---")
+        print()
         if content.endswith("\n"):
             print(content, end="")
         else:
             print(content)
+        print()
+        print("---")
         file_obj.close()
         file_obj = None
-        print(f"---File '{filename}' closed.")
+        print(f"File '{filename}' closed.")
     except Exception as e:
         print(f"Error opening file '{filename}': {e}")
     finally:

@@ -6,22 +6,13 @@ def input_temperature(temp_str: str) -> int:
 
 
 def test_temperature() -> None:
-
-    temp_valid = "25"
-    print(f"Input data is '{temp_valid}'")
-    try:
-        t = input_temperature(temp_valid)
-        print(f"Temperature is now {t}°C")
-    except ValueError as e:
-        print(f"Caught input_temperature error: {e}")
-
-    temp_invalid = "abc"
-    print(f"Input data is '{temp_invalid}'")
-    try:
-        t = input_temperature(temp_invalid)
-        print(f"Temperature is now {t}°C")
-    except ValueError as e:
-        print(f"Caught input_temperature error: {e}")
+    for temp_str in ("25", "abc"):
+        print(f"Input data is '{temp_str}'")
+        try:
+            temperature = input_temperature(temp_str)
+            print(f"Temperature is now {temperature}°C")
+        except ValueError as error:
+            print(f"Caught input_temperature error: {error}")
 
 
 def main() -> None:

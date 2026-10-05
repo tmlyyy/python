@@ -8,7 +8,6 @@ def main() -> None:
         print("Usage: ft_stream_management.py <file>")
         return
 
-    # Desempacotamento de lista para evitar índices numéricos com colchetes
     _, filename = sys.argv
     print("=== Cyber Archives Recovery & Preservation ===")
     print(f"Accessing file '{filename}'")
@@ -19,13 +18,16 @@ def main() -> None:
         file_obj = open(filename, "r")
         content = file_obj.read()
         print("---")
+        print()
         if content.endswith("\n"):
             print(content, end="")
         else:
             print(content)
+        print()
+        print("---")
         file_obj.close()
         file_obj = None
-        print(f"---File '{filename}' closed.")
+        print(f"File '{filename}' closed.")
     except Exception as e:
         # Requisito 1: Escreve o log de erro explicitamente no canal sys.stderr
         sys.stderr.write(f"[STDERR] Error opening file '{filename}': {e}\n")
@@ -36,14 +38,18 @@ def main() -> None:
 
     print("Transform data:")
     print("---")
+    print()
 
     lines: list[str] = content.splitlines()
-    transformed_lines: list[str] = [line + "#" for line in lines if line]
-    new_content: str = "\n".join(transformed_lines) + "\n"
+    transformed_lines: list[str] = [line + "#" for line in lines]
+    new_content: str = "\n".join(transformed_lines)
+    if content.endswith("\n"):
+        new_content += "\n"
     print(new_content, end="")
+    print()
+    print("---")
 
-    # Requisito 2: Solicita o nome do arquivo usando sys.stdout e sys.stdin
-    sys.stdout.write("---Enter new file name (or empty): ")
+    sys.stdout.write("Enter new file name (or empty): ")
     sys.stdout.flush()
 
     try:
@@ -51,8 +57,7 @@ def main() -> None:
         if not user_input:
             new_filename = ""
         else:
-            # Removemos a quebra de linha \n preservada pelo readline()
-            new_filename = user_input.replace("\n", "").replace("\r", "")
+            new_filename = user_input.rstrip("\r\n")
     except Exception as e:
         sys.stderr.write(f"[STDERR] Error reading input: {e}\n")
         new_filename = ""
@@ -71,6 +76,7 @@ def main() -> None:
         print(f"Data saved in file '{new_filename}'.")
     except Exception as e:
         sys.stderr.write(f"[STDERR] Error saving file '{new_filename}': {e}\n")
+        print("Data not saved.")
     finally:
         if out_file is not None:
             out_file.close()

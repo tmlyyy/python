@@ -8,7 +8,6 @@ def main() -> None:
         print("Usage: ft_archive_creation.py <file>")
         return
 
-    # Desempacotamento de lista para evitar Ã­ndices numÃ©ricos com colchetes
     _, filename = sys.argv
     print("=== Cyber Archives Recovery & Preservation ===")
     print(f"Accessing file '{filename}'")
@@ -19,13 +18,16 @@ def main() -> None:
         file_obj = open(filename, "r")
         content = file_obj.read()
         print("---")
+        print()
         if content.endswith("\n"):
             print(content, end="")
         else:
             print(content)
+        print()
+        print("---")
         file_obj.close()
         file_obj = None
-        print(f"---File '{filename}' closed.")
+        print(f"File '{filename}' closed.")
     except Exception as e:
         print(f"Error opening file '{filename}': {e}")
         return
@@ -35,15 +37,19 @@ def main() -> None:
 
     print("Transform data:")
     print("---")
+    print()
 
-    # Processamos linha por linha para adicionar o marcador de 2087 (#)
     lines: list[str] = content.splitlines()
-    transformed_lines: list[str] = [line + "#" for line in lines if line]
-    new_content: str = "\n".join(transformed_lines) + "\n"
+    transformed_lines: list[str] = [line + "#" for line in lines]
+    new_content: str = "\n".join(transformed_lines)
+    if content.endswith("\n"):
+        new_content += "\n"
     print(new_content, end="")
+    print()
+    print("---")
 
     try:
-        new_filename: str = input("---Enter new file name (or empty): ")
+        new_filename: str = input("Enter new file name (or empty): ")
     except EOFError:
         new_filename = ""
 

@@ -25,19 +25,19 @@ def test_water_function() -> None:
 
 
 def test_custom_errors() -> None:
-    print("Testing PlantError... ", end="")
+    print("Testing PlantError...")
     try:
         test_plant_function()
     except PlantError as e:
         print(f"Caught PlantError: {e}")
 
-    print("Testing WaterError... ", end="")
+    print("\nTesting WaterError...")
     try:
         test_water_function()
     except WaterError as e:
         print(f"Caught WaterError: {e}")
 
-    print("Testing catching all garden errors...")
+    print("\nTesting catching all garden errors...")
     try:
         test_plant_function()
     except GardenError as e:

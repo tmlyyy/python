@@ -23,7 +23,8 @@ def test_watering_system(plants: list[str]) -> None:
         for plant in plants:
             water_plant(plant)
     except PlantError as e:
-        print(f"Caught PlantError: {e} .. ending tests and returning to main")
+        print(f"Caught PlantError: {e}")
+        print(".. ending tests and returning to main")
         return
     finally:
         print("Closing watering system")
@@ -32,17 +33,13 @@ def test_watering_system(plants: list[str]) -> None:
 def main() -> None:
     print("=== Garden Watering System ===")
 
-    # Teste 1: Apenas plantas vÃ¡lidas (Nomes Capitalizados)
-    print("Testing valid plants...")
+    print("\nTesting valid plants...")
     valid_plants = ["Tomato", "Lettuce", "Carrots"]
     test_watering_system(valid_plants)
-    print()
 
-    # Teste 2: PresenÃ§a de uma planta invÃ¡lida ("lettuce" com minÃºsculo)
-    print("Testing invalid plants...")
+    print("\nTesting invalid plants...")
     invalid_plants = ["Tomato", "lettuce", "Carrots"]
     test_watering_system(invalid_plants)
-    print()
 
     print("Cleanup always happens, even with errors!")
 

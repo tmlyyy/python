@@ -9,22 +9,23 @@ def garden_operations(operation_number: int) -> None:
     elif operation_number == 2:
         open("/non/existent/file", "r")
     elif operation_number == 3:
-        "string" + 5  # type: ignore
+        "string" + 5
 
 
 def test_error_types() -> None:
-    for op in range(5):
+    for op in (0, 1, 2, 3, 4):
         print(f"Testing operation {op}...")
         try:
             garden_operations(op)
             print("Operation completed successfully")
-        except (
-            ValueError,
-            ZeroDivisionError,
-            FileNotFoundError,
-            TypeError,
-        ) as e:
-            print(f"Caught {type(e).__name__}: {e}")
+        except ValueError as error:
+            print(f"Caught ValueError: {error}")
+        except ZeroDivisionError as error:
+            print(f"Caught ZeroDivisionError: {error}")
+        except FileNotFoundError as error:
+            print(f"Caught FileNotFoundError: {error}")
+        except TypeError as error:
+            print(f"Caught TypeError: {error}")
 
 
 def main() -> None:

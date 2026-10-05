@@ -6,7 +6,6 @@ def main() -> None:
     print("=== Inventory System Analysis ===")
     args: list[str] = sys.argv[1:]
     inventory: dict[str, int] = {}
-    insertion_order: list[str] = []
 
     for arg in args:
         if ":" not in arg:
@@ -36,15 +35,8 @@ def main() -> None:
             continue
 
         inventory[item_name] = qty
-        insertion_order.append(item_name)
 
     print(f"Got inventory: {inventory}")
-
-    if not inventory:
-        print("Item list: []")
-        print("Total quantity of the 0 items: 0")
-        print("Updated inventory: {'magic_item': 1}")
-        return
 
     items: list[str] = list(inventory.keys())
     print(f"Item list: {items}")
@@ -54,28 +46,27 @@ def main() -> None:
 
     for item in items:
         qty = inventory[item]
-        pct: float = (qty / total_qty) * 100 if total_qty > 0 else 0.0
+        pct: float = (qty / total_qty) * 100 if total_qty != 0 else 0.0
         print(f"Item {item} represents {pct:.1f}%")
 
-    # Pegamos o primeiro item da lista desempacotando-o de forma limpa!
-    first_item, *rest = insertion_order
-    most_abundant_item: str = first_item
-    least_abundant_item: str = first_item
+    if items:
+        most_abundant_item: str = items[0]
+        least_abundant_item: str = items[0]
 
-    for item in insertion_order:
-        if inventory[item] > inventory[most_abundant_item]:
-            most_abundant_item = item
-        if inventory[item] < inventory[least_abundant_item]:
-            least_abundant_item = item
+        for item in items:
+            if inventory[item] > inventory[most_abundant_item]:
+                most_abundant_item = item
+            if inventory[item] < inventory[least_abundant_item]:
+                least_abundant_item = item
 
-    print(
-        f"Item most abundant: {most_abundant_item} "
-        f"with quantity {inventory[most_abundant_item]}"
-    )
-    print(
-        f"Item least abundant: {least_abundant_item} "
-        f"with quantity {inventory[least_abundant_item]}"
-    )
+        print(
+            f"Item most abundant: {most_abundant_item} "
+            f"with quantity {inventory[most_abundant_item]}"
+        )
+        print(
+            f"Item least abundant: {least_abundant_item} "
+            f"with quantity {inventory[least_abundant_item]}"
+        )
 
     inventory.update({"magic_item": 1})
     print(f"Updated inventory: {inventory}")
