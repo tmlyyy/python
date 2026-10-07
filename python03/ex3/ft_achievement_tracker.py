@@ -20,7 +20,7 @@ ACHIEVEMENTS = [
 
 
 def gen_player_achievements() -> set[str]:
-    # Seleciona de 5 a 10 conquistas aleatÃ³rias do pool
+    # Seleciona de 5 a 10 conquistas aleatorias do pool
     k = random.randint(5, 10)
     sampled = random.sample(ACHIEVEMENTS, k)
     return set(sampled)
@@ -41,6 +41,7 @@ def main() -> None:
 
     # Encontra todas as conquistas distintas presentes entre os jogadores
     all_distinct = set.union(alice, bob, charlie, dylan)
+    all_possible = set(ACHIEVEMENTS)
     print(f"All distinct achievements: {all_distinct}")
 
     # Encontra as conquistas comuns a todos os jogadores
@@ -59,10 +60,10 @@ def main() -> None:
     print(f"Only Dylan has: {only_dylan}")
 
     # Identifica as conquistas que faltam para cada jogador ter todas do grupo
-    print(f"Alice is missing: {set.difference(all_distinct, alice)}")
-    print(f"Bob is missing: {set.difference(all_distinct, bob)}")
-    print(f"Charlie is missing: {set.difference(all_distinct, charlie)}")
-    print(f"Dylan is missing: {set.difference(all_distinct, dylan)}")
+    print(f"Alice is missing: {set.difference(all_possible, alice)}")
+    print(f"Bob is missing: {set.difference(all_possible, bob)}")
+    print(f"Charlie is missing: {set.difference(all_possible, charlie)}")
+    print(f"Dylan is missing: {set.difference(all_possible, dylan)}")
 
 
 if __name__ == "__main__":
