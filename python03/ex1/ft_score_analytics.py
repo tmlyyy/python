@@ -31,7 +31,16 @@ def main() -> None:
 
     total_players: int = len(valid_scores)
     total_score: int = sum(valid_scores)
-    avg_score: float = float(total_score) / total_players
+    try:
+        avg_score: float = float(total_score) / total_players
+        average_text = str(avg_score)
+    except OverflowError:
+        whole = total_score // total_players
+        remainder = total_score % total_players
+        if remainder:
+            average_text = f"{whole} + {remainder}/{total_players}"
+        else:
+            average_text = f"{whole}.0"
     high_score: int = max(valid_scores)
     low_score: int = min(valid_scores)
     score_range: int = high_score - low_score
@@ -39,11 +48,14 @@ def main() -> None:
     print(f"Scores processed: {valid_scores}")
     print(f"Total players: {total_players}")
     print(f"Total score: {total_score}")
-    print(f"Average score: {avg_score}")
+    print(f"Average score: {average_text}")
     print(f"High score: {high_score}")
     print(f"Low score: {low_score}")
     print(f"Score range: {score_range}")
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except ValueError:
+        print("Numeric result exceeds Python's display limit")

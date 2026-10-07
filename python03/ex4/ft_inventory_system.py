@@ -7,6 +7,9 @@ def main() -> None:
     args: list[str] = sys.argv[1:]
     inventory: dict[str, int] = {}
 
+    if not args:
+        print("Usage: python3 ft_inventory_system.py <item:quantity> ...")
+
     for arg in args:
         if ":" not in arg:
             print(f"Error - invalid parameter '{arg}'")
@@ -46,8 +49,14 @@ def main() -> None:
 
     for item in items:
         qty = inventory[item]
-        pct: float = (qty / total_qty) * 100 if total_qty != 0 else 0.0
-        print(f"Item {item} represents {pct:.1f}%")
+        try:
+            pct: float = (qty / total_qty) * 100 if total_qty != 0 else 0.0
+            if pct == float("inf") or pct == float("-inf"):
+                print(f"Item {item} represents {qty * 100}/{total_qty}%")
+            else:
+                print(f"Item {item} represents {pct:.1f}%")
+        except OverflowError:
+            print(f"Item {item} represents {qty * 100}/{total_qty}%")
 
     if items:
         most_abundant_item: str = items[0]
@@ -68,9 +77,15 @@ def main() -> None:
             f"with quantity {inventory[least_abundant_item]}"
         )
 
-    inventory.update({"magic_item": 1})
+    new_item = "magic_item"
+    while new_item in inventory:
+        new_item += "_new"
+    inventory.update({new_item: 1})
     print(f"Updated inventory: {inventory}")
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except ValueError:
+        print("Numeric result exceeds Python's display limit")
