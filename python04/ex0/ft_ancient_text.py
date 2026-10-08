@@ -13,7 +13,7 @@ def main() -> None:
     print("=== Cyber Archives Recovery ===")
     print(f"Accessing file '{filename}'")
 
-    file_obj: typing.Optional[typing.IO[str]] = None
+    file_obj: typing.IO[str] | None = None
     try:
         file_obj = open(filename, "r")
         content: str = file_obj.read()

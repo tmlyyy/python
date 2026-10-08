@@ -20,7 +20,7 @@ def main() -> None:
             print(f"Error - invalid parameter '{arg}'")
             continue
 
-        # Desempacotamos os elementos diretamente sem usar colchetes!
+        # Desempacotamos os elementos diretamente sem usar colchetes
         item_name, qty_str = parts
 
         if not item_name:
