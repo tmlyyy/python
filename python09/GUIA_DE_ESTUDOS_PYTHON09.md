@@ -23,8 +23,25 @@ python3 -m venv /tmp/python09_study_venv
 
 Use Python 3.10 ou superior. O ambiente virtual separa as dependências deste
 estudo das demais instalações de Python. Os dados das demonstrações foram
-criados para os exemplos: os geradores e datasets citados no subject não
-estão neste repositório.
+criados para os exemplos. O arquivo oficial `data_generator.tar`, fornecido
+separadamente do subject, contém `data_generator.py` e `data_exporter.py`.
+Ele não faz parte dos arquivos a copiar para a entrega.
+
+Para experimentar os geradores sem adicionar arquivos ao repositório, extraia
+o arquivo em uma pasta temporária e execute o exportador a partir dela:
+
+```bash
+mkdir -p /tmp/python09_official_tools
+tar -xf /home/thamoliv/Downloads/data_generator.tar -C /tmp/python09_official_tools
+cd /tmp/python09_official_tools
+/tmp/python09_study_venv/bin/python data_exporter.py
+```
+
+Nesta revisão, os JSONs gerados trouxeram 10 estações, 15 contatos e 5 missões
+aceitos pelos modelos. Os 2 exemplos de estação inválida e os 2 de contato
+inválido foram rejeitados. Os scripts de geração são ferramentas de teste;
+as regras da validação continuam sendo as do subject. Os arquivos gerados
+ficaram em `/tmp`, fora do Git.
 
 ## Ex0 — `SpaceStation`
 
