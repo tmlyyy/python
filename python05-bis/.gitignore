@@ -1,0 +1,12 @@
+# Local environments and generated Python files
+.venv/
+venv/
+env/
+lab_env/
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.pytest_cache/
+.env
+.env.*
+!.env.example

@@ -12,7 +12,7 @@ def main() -> None:
     print("=== Cyber Archives Recovery & Preservation ===")
     print(f"Accessing file '{filename}'")
 
-    file_obj: typing.Optional[typing.IO[str]] = None
+    file_obj: typing.IO[str] | None = None
     content: str = ""
     try:
         file_obj = open(filename, "r")
@@ -67,7 +67,7 @@ def main() -> None:
         return
 
     print(f"Saving data to '{new_filename}'")
-    out_file: typing.Optional[typing.IO[str]] = None
+    out_file: typing.IO[str] | None = None
     try:
         out_file = open(new_filename, "w")
         out_file.write(new_content)

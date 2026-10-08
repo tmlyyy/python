@@ -35,7 +35,7 @@ def consume_event(
 def main() -> None:
     print("=== Game Data Stream Processor ===")
 
-    # 1. Inicializa o nosso fluxo infinito de dados
+    # 1. Inicializa o fluxo infinito de dados
     event_gen = gen_event()
 
     # 2. Executa o loop de 1000 eventos usando Tuple Unpacking (sem colchetes)
