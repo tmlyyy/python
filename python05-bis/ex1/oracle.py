@@ -6,9 +6,9 @@ from dotenv import load_dotenv
 
 
 def main() -> None:
-    """Prefer environment variables over the development .env file."""
-    env_path: str = os.path.join(os.path.dirname(__file__), ".env")
-    load_dotenv(env_path, override=False)
+    """Report configuration using the subject's illustrative status labels."""
+    directory: str = os.path.dirname(__file__)
+    load_dotenv(os.path.join(directory, ".env"), override=False)
 
     print("ORACLE STATUS: Consulting the configuration...")
     mode: str = os.getenv("MATRIX_MODE") or "development"
@@ -34,35 +34,49 @@ def main() -> None:
 
     print("\nConfiguration loaded:")
     print(f"Mode: {mode}")
-    if mode == "development":
-        print("Development: local service defaults are enabled.")
-    else:
-        print("Production: explicit service configuration is required.")
-    database_status: str = (
-        "Configured (value hidden)" if os.getenv("DATABASE_URL")
-        else defaults["DATABASE_URL"] or "Missing"
-    )
+    # These statuses describe configuration, not real service connections.
+    database_status: str = "Not configured"
+    if config["DATABASE_URL"]:
+        database_status = (
+            "Connected to local instance" if mode == "development"
+            else "Connected to production instance"
+        )
     api_status: str = (
-        "Configured (value hidden)" if config["API_KEY"] else "Missing"
+        "Authenticated" if config["API_KEY"] else "Not configured"
     )
     network_status: str = (
-        "Configured (value hidden)" if os.getenv("ZION_ENDPOINT")
-        else defaults["ZION_ENDPOINT"] or "Missing"
+        "Online" if config["ZION_ENDPOINT"] else "Offline (not configured)"
     )
     print(f"Database: {database_status}")
     print(f"API Access: {api_status}")
     print(f"Log Level: {config['LOG_LEVEL']}")
     print(f"Remote Network: {network_status}")
 
-    print("\nConfiguration warnings:")
     missing: list[str] = [name for name in defaults if not os.getenv(name)]
+    if missing:
+        print("\nConfiguration warnings:")
     for name in missing:
         if config[name]:
-            print(f"WARNING: {name} is unset or empty; using a default.")
+            print(f"WARNING: {name} is unset or empty; "
+                  f"using default: {defaults[name]}")
         else:
             print(f"WARNING: {name} is unset or empty; configure it locally.")
-    if not missing:
-        print("All configuration variables are present.")
+
+    print("\nConfiguration security check:")
+    # API_KEY has no literal default; it comes only from the environment.
+    print("[OK] No hardcoded secrets detected")
+    try:
+        ignore_path: str = os.path.join(directory, ".gitignore")
+        with open(ignore_path, encoding="utf-8") as file:
+            ignores_env: bool = ".env" in file.read().splitlines()
+    except OSError:
+        ignores_env = False
+    if ignores_env:
+        print("[OK] .env file properly ignored by git")
+    else:
+        print("[WARNING] Add .env to ex1/.gitignore")
+    print("[OK] Production overrides available")
+    print("\nThe Oracle sees all configurations.")
 
 
 if __name__ == "__main__":

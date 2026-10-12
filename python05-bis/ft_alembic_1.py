@@ -11,7 +11,8 @@ def main() -> None:
     print("Now show that not all functions can be reached")
     print("This will raise an exception!")
     # Intentional AttributeError and mypy error required by the subject.
-    print(f"Testing the hidden create_earth: {alchemy.create_earth()}")
+    print("Testing the hidden create_earth: ", end="", flush=True)
+    print(f"{alchemy.create_earth()}")
 
 
 if __name__ == "__main__":

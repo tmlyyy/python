@@ -29,10 +29,11 @@ def main() -> None:
         print("poetry install  # Run from ex0/")
 
     print("\npip vs Poetry:")
-    print("  requirements.txt lists constraints;")
-    print("  pip resolves them at install time.")
-    print("  pyproject.toml lists constraints; Poetry records exact resolved")
-    print("  versions in poetry.lock when you run poetry install.")
+    print("  requirements.txt declares what to install; "
+          "pip resolves it at install time.")
+    print("  pyproject.toml declares the same constraints, "
+          "and Poetry pins the resolved")
+    print("  versions in poetry.lock so every install is identical.")
 
     if not missing:
         print("\nAll reagents present and accounted for.")

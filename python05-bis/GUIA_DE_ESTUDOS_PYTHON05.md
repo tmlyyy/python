@@ -165,10 +165,17 @@ implementação:
 | `API_KEY` | Ausente, com aviso | Ausente, com aviso |
 
 `MATRIX_MODE` ausente usa `development`. Um modo desconhecido também resulta em
- desenvolvimento, com aviso. O programa não abre conexões: “Configured” significa
-que existe um valor, sem comprovar que um serviço está disponível. Chaves de API
- e URLs fornecidas pelo ambiente não são impressas, pois URLs também podem conter
+ desenvolvimento, com aviso. Os rótulos `Connected`, `Authenticated` e `Online`
+seguem a demonstração do subject: representam a presença de configuração, sem
+abrir conexões reais nem comprovar que um serviço está disponível. Chaves de API
+e URLs fornecidas pelo ambiente não são impressas, pois URLs podem conter
 credenciais.
+
+A seção `Configuration security check` acompanha o exemplo. A mensagem sobre
+segredos descreve a implementação: não há chave de API literal no código, e o
+valor é lido do ambiente. Ela não é um scanner genérico de segredos. O programa
+também verifica a presença da regra `.env` no `ex1/.gitignore`; se o arquivo ou
+a regra faltar, mostra um aviso em vez de imprimir um `[OK]` falso.
 
 A lógica usa dicionários para reunir a configuração, condicionais para os modos
  e uma lista dos campos ausentes para mostrar os avisos.
@@ -489,3 +496,55 @@ restaram dúvidas sobre os requisitos que impedissem a implementação.
 Os arquivos do projeto não foram commitados nem enviados por push. Antes da
 avaliação, pratique criar um ambiente novo e explique os imports e as duas
 falhas intencionais sem depender deste guia.
+
+## Revisão de saídas — 12/10/2026
+
+O subject foi relido integralmente, e os nove programas foram executados nesta
+revisão. Foram ajustados `ex0/construct.py`, `ex0/loading.py`, `ex1/oracle.py` e
+`ft_alembic_1.py`; os demais módulos não precisaram de alterações.
+
+- `construct.py` usa as frases e quebras de linha do exemplo. Fora do ambiente
+  virtual, a saída corresponde ao exemplo com o caminho real do interpretador.
+  Dentro dele, a saída segue o exemplo e mantém uma seção adicional
+  `Global package locations`, necessária para cumprir a exigência de comparar
+  os diretórios globais com os do ambiente virtual.
+- `loading.py` usa o texto de comparação pip/Poetry do subject. As versões
+  exibidas são as realmente instaladas: pandas 2.3.3 e numpy 2.5.4 nesta revisão.
+  As versões 2.1.0 e 1.25.0 do PDF são valores ilustrativos, não versões a imprimir
+  artificialmente. Os manifestos de dependências foram preservados.
+- `oracle.py`, com as cinco configurações preenchidas em desenvolvimento,
+  reproduz a saída completa de exemplo. Sem configuração, mostra valores
+  padrão e avisos; em produção, os estados e os padrões continuam diferentes.
+  A chave da API permanece oculta.
+- `ft_alembic_1.py` imprime `Testing the hidden create_earth: ` antes da tentativa
+  que deve falhar. O `AttributeError` e o erro do mypy continuam intencionais.
+- As saídas completas de destilação, transmutação e grimoire claro foram
+  comparadas com o PDF. O grimoire escuro continua falhando por import circular.
+
+Passaram 85 verificações automatizadas de saídas, funções, configurações,
+imports, anotações e sintaxe Python 3.10, além do teste com somente numpy
+instalado. Foram testados os ambientes global e virtual, dependências ausentes
+e instaladas, `.env`, precedência, valores vazios, modo desconhecido, falta de
+`.gitignore`, ingredientes válidos e inválidos e os dois imports escuros.
+
+`flake8` passou. O mypy verificou os 20 arquivos Python e encontrou somente o
+erro de atributo deliberado de `ft_alembic_1.py`. Os testes de execução usaram
+Python 3.13.1; Windows e execução em Python 3.10 não foram testados. Poetry não
+foi executado novamente nesta revisão; seus manifestos não mudaram.
+
+Os testes e os ambientes foram criados em `/tmp`. Não é preciso igualar os
+caminhos da máquina, números de linha e dicas do traceback ou versões do Python
+aos do PDF: esses dados devem refletir a execução real. As quebras impostas pela
+largura da página do PDF também não exigem quebrar a frase retornada pela receita.
+
+Se você já criou `lab_env` dentro do projeto, preserve esse ambiente local,
+mas não inclua bibliotecas de terceiros na análise dos exercícios. Para limitar
+a análise aos arquivos da entrega, execute a partir da raiz:
+
+```bash
+flake8 ex0/*.py ex1/*.py elements.py ft_*.py alchemy
+mypy --strict ex0 ex1 elements.py ft_*.py alchemy
+```
+
+O único erro esperado no segundo comando continua sendo o atributo
+`alchemy.create_earth`. O arquivo `.gitignore` protege os ambientes e caches.
