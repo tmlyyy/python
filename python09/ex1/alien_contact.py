@@ -38,7 +38,9 @@ class AlienContact(BaseModel):
             self.contact_type == ContactType.TELEPATHIC
             and self.witness_count < 3
         ):
-            raise ValueError("Telepathic contact needs at least 3 witnesses")
+            raise ValueError(
+                "Telepathic contact requires at least 3 witnesses"
+            )
 
         # strip() verifica o conteúdo sem alterar a mensagem armazenada.
         if self.signal_strength > 7.0 and (
@@ -52,11 +54,11 @@ class AlienContact(BaseModel):
 
 def main() -> None:
     print("Alien Contact Log Validation")
-    print("=" * 40)
+    print("=" * 38)
 
     contact = AlienContact(
-        contact_id="AC_2026_001",
-        timestamp=datetime(2026, 2, 10, 14, 30),
+        contact_id="AC_2024_001",
+        timestamp=datetime(2024, 2, 10, 14, 30),
         location="Area 51, Nevada",
         contact_type=ContactType.RADIO,
         signal_strength=8.5,
@@ -66,21 +68,19 @@ def main() -> None:
     )
     print("Valid contact report:")
     print(f"ID: {contact.contact_id}")
-    print(f"Time: {contact.timestamp}")
     print(f"Type: {contact.contact_type.value}")
     print(f"Location: {contact.location}")
     print(f"Signal: {contact.signal_strength}/10")
     print(f"Duration: {contact.duration_minutes} minutes")
     print(f"Witnesses: {contact.witness_count}")
     print(f"Message: {contact.message_received!r}")
-    print(f"Verified: {contact.is_verified}")
 
-    print("\n" + "=" * 40)
+    print("\n" + "=" * 38)
     print("Expected validation error:")
     try:
         AlienContact(
-            contact_id="AC_2026_002",
-            timestamp=datetime(2026, 2, 11, 8, 0),
+            contact_id="AC_2024_002",
+            timestamp=datetime(2024, 2, 11, 8, 0),
             location="Nevada",
             contact_type=ContactType.TELEPATHIC,
             signal_strength=4.0,
@@ -89,7 +89,7 @@ def main() -> None:
         )
     except ValidationError as error:
         for issue in error.errors():
-            print(issue["msg"])
+            print(issue["msg"].removeprefix("Value error, "))
 
 
 if __name__ == "__main__":

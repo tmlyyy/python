@@ -57,12 +57,13 @@ limites: `min_length` e `max_length` para strings; `ge` (maior ou igual) e
 1. `station_id` aceita 3 a 10 caracteres e `name`, 1 a 50.
 2. `crew_size` aceita 1 a 20. `power_level` e `oxygen_level` aceitam 0.0 a
    100.0, inclusive.
-3. `last_maintenance: datetime` guarda data e hora. `is_operational` vale
-   `True` quando omitido. `notes: str | None` aceita texto de até 200
-   caracteres ou `None` e, quando omitido, vale `None`.
+3. `last_maintenance: datetime = Field(...)` guarda data e hora e explicita
+   que o campo é obrigatório, como pede a régua. `is_operational` vale `True`
+   quando omitido. `notes: str | None` aceita texto de até 200 caracteres ou
+   `None` e, quando omitido, vale `None`.
 4. `main()` cria uma estação válida, mostra seus dados e tenta criar outra
-   com 21 tripulantes. O `except ValidationError` mostra o campo e a
-   mensagem do erro esperado, sem traceback.
+   com 21 tripulantes. O `except ValidationError` mostra a mensagem do erro
+   esperado, sem traceback.
 
 `datetime` vem da biblioteca padrão. Pydantic pode converter uma string de
 data e hora válida em `datetime`; isso é conversão de tipo, não uma alteração
@@ -158,9 +159,10 @@ valida os modelos aninhados e informa onde está o erro.
 Os limites são inclusivos quando o subject apresenta intervalos como
 `1-20`; apenas as regras escritas com `>` usam comparação estrita. Não há
 regras adicionais de unicidade de IDs, datas futuras ou formato dos nomes.
-As saídas de exemplo do PDF orientam a demonstração, sem exigir texto
-idêntico. As restrições de cada exercício vêm desta lista, sem importar
-regras de listas anteriores.
+As demonstrações foram alinhadas aos exemplos de saída do PDF para facilitar
+a comparação visual; os erros exibidos ainda vêm de `ValidationError`, e o
+subject não exige texto idêntico. As restrições de cada exercício vêm desta
+lista, sem importar regras de listas anteriores.
 
 No Ex1, o subject exige mensagem recebida para sinal acima de 7.0, mas não
 define se uma string vazia ou só com espaços conta como mensagem. Por escolha

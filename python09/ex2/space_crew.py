@@ -45,7 +45,9 @@ class SpaceMission(BaseModel):
             member.rank in (Rank.CAPTAIN, Rank.COMMANDER)
             for member in self.crew
         ):
-            raise ValueError("Mission needs a captain or commander")
+            raise ValueError(
+                "Mission must have at least one Commander or Captain"
+            )
 
         if self.duration_days > 365:
             experienced_count = sum(
@@ -65,7 +67,7 @@ class SpaceMission(BaseModel):
 
 def main() -> None:
     print("Space Mission Crew Validation")
-    print("=" * 40)
+    print("=" * 41)
 
     commander = CrewMember(
         member_id="CM001",
@@ -75,8 +77,16 @@ def main() -> None:
         specialization="Mission Command",
         years_experience=12,
     )
-    engineer = CrewMember(
+    navigator = CrewMember(
         member_id="CM002",
+        name="John Smith",
+        rank=Rank.LIEUTENANT,
+        age=36,
+        specialization="Navigation",
+        years_experience=8,
+    )
+    engineer = CrewMember(
+        member_id="CM003",
         name="Alice Johnson",
         rank=Rank.OFFICER,
         age=34,
@@ -84,21 +94,19 @@ def main() -> None:
         years_experience=7,
     )
     mission = SpaceMission(
-        mission_id="M2026_MARS",
+        mission_id="M2024_MARS",
         mission_name="Mars Colony Establishment",
         destination="Mars",
-        launch_date=datetime(2026, 11, 1, 9, 0),
+        launch_date=datetime(2024, 11, 1, 9, 0),
         duration_days=900,
-        crew=[commander, engineer],
+        crew=[commander, navigator, engineer],
         budget_millions=2500.0,
     )
     print("Valid mission created:")
     print(f"Mission: {mission.mission_name}")
     print(f"ID: {mission.mission_id}")
     print(f"Destination: {mission.destination}")
-    print(f"Launch: {mission.launch_date}")
     print(f"Duration: {mission.duration_days} days")
-    print(f"Status: {mission.mission_status}")
     print(f"Budget: ${mission.budget_millions}M")
     print(f"Crew size: {len(mission.crew)}")
     print("Crew members:")
@@ -106,7 +114,7 @@ def main() -> None:
         print(f"- {member.name} ({member.rank.value}) - "
               f"{member.specialization}")
 
-    print("\n" + "=" * 40)
+    print("\n" + "=" * 41)
     print("Expected validation error:")
     try:
         SpaceMission(
@@ -120,7 +128,7 @@ def main() -> None:
         )
     except ValidationError as error:
         for issue in error.errors():
-            print(issue["msg"])
+            print(issue["msg"].removeprefix("Value error, "))
 
 
 if __name__ == "__main__":
