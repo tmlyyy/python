@@ -34,6 +34,10 @@ class DataProcessor(ABC):
             raise IndexError("No data to output")
         return self._pending.pop(0)
 
+    def _restore_output(self, data: list[tuple[int, str]]) -> None:
+        """Put an unsuccessful export back at the front of the queue."""
+        self._pending[:0] = data
+
     @property
     def total_processed(self) -> int:
         return self._total_processed
@@ -115,6 +119,7 @@ if __name__ == "__main__":
     text = TextProcessor()
     print("\nTesting Text Processor...")
     print(f"Trying to validate input '42': {text.validate(42)}")
+    print(f"Trying to validate input 'Hello': {text.validate('Hello')}")
     text.ingest(["Hello", "Nexus", "World"])
     rank, value = text.output()
     print(f"Text value {rank}: {value}")
@@ -122,6 +127,8 @@ if __name__ == "__main__":
     logs = LogProcessor()
     print("\nTesting Log Processor...")
     print(f"Trying to validate input 'Hello': {logs.validate('Hello')}")
+    valid_log = {"log_level": "NOTICE", "log_message": "Connected"}
+    print(f"Trying to validate a log entry: {logs.validate(valid_log)}")
     logs.ingest([
         {"log_level": "NOTICE", "log_message": "Connection to server"},
         {"log_level": "ERROR", "log_message": "Unauthorized access!!"},

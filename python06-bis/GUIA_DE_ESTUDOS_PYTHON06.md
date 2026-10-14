@@ -1,6 +1,6 @@
 # Guia de estudos — Python 06 bis
 
-Este guia é material de estudo pessoal. Para a entrega oficial, copie apenas os arquivos de código pedidos no subject. Execute os comandos abaixo de dentro da pasta `python06`, que funciona como raiz do projeto.
+Este guia é material de estudo pessoal. Para a entrega oficial, copie apenas os arquivos de código pedidos no subject. Execute os comandos abaixo de dentro da pasta `python06-bis`, que funciona como raiz do projeto.
 
 ## Exercício 0 — `data_processor.py`
 
@@ -38,7 +38,7 @@ Este guia é material de estudo pessoal. Para a entrega oficial, copie apenas os
 
 **Fluxo.** `output_pipeline` percorre os processadores em ordem de registro. Para cada um, extrai `min(nb, pendentes)` tuplas `(rank, valor)` e chama o plugin uma vez. O plugin CSV escreve uma linha de campos; o JSON cria um objeto cujas chaves são `item_` seguido do rank.
 
-**Decisões.** `nb` negativo gera `ValueError`; zero não consome valores. CSV coloca aspas em campos com vírgula, aspas ou quebra de linha, dobrando aspas internas. JSON escapa aspas, barras invertidas e caracteres de controle. Se o processador está vazio, o CSV imprime uma linha vazia e o JSON imprime `{}`. Os plugins escrevem em stdout, como nos exemplos.
+**Decisões.** `nb` negativo gera `ValueError`; zero não consome valores. CSV coloca aspas em campos vazios ou com vírgula, aspas ou quebra de linha, dobrando aspas internas. JSON escapa aspas, barras invertidas e caracteres de controle. Se o processador está vazio, o CSV imprime uma linha vazia e o JSON imprime `{}`. Os plugins escrevem em stdout, como nos exemplos. Se um plugin falha, os itens retirados daquele processador voltam ao início da fila e a exceção é repassada ao chamador.
 
 **Teste.** `python3 data_pipeline.py`. Para estudar os escapes, experimente campos com `,`, `"`, `\n` e `\t`.
 

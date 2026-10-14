@@ -18,11 +18,15 @@ class DataStream(BaseDataStream):
         for processor in self.processors:
             data = [processor.output()
                     for _ in range(min(nb, processor.remaining))]
-            plugin.process_output(data)
+            try:
+                plugin.process_output(data.copy())
+            except Exception:
+                processor._restore_output(data)
+                raise
 
 
 def _csv_field(value: str) -> str:
-    if any(char in value for char in ',"\r\n'):
+    if not value or any(char in value for char in ',"\r\n'):
         return '"' + value.replace('"', '""') + '"'
     return value
 
