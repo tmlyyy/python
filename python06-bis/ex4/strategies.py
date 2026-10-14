@@ -38,7 +38,8 @@ class AggressiveStrategy(BattleStrategy):
     def act(self, creature: Creature) -> None:
         if not self.is_valid(creature):
             raise InvalidStrategyError(
-                f"Invalid Creature '{creature.name}' for aggressive strategy"
+                f"Invalid Creature '{creature.name}' "
+                "for this aggressive strategy"
             )
         if isinstance(creature, TransformCapability):
             print(creature.transform())

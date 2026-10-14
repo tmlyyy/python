@@ -71,8 +71,10 @@ class JSONExportPlugin:
 
 if __name__ == "__main__":
     print("=== Code Nexus - Data Pipeline ===")
+    print("\nInitialize Data Stream...\n")
     stream = DataStream()
     stream.print_processors_stats()
+    print("\nRegistering Processors")
     stream.register_processor(NumericProcessor())
     stream.register_processor(TextProcessor())
     stream.register_processor(LogProcessor())
@@ -83,11 +85,12 @@ if __name__ == "__main__":
          {"log_level": "INFO", "log_message": "User wil is connected"}],
         42, ["Hi", "five"],
     ]
-    print("\nSending first batch:")
+    print(f"\nSend first batch of data on stream: {first}\n")
     stream.process_stream(first)
     stream.print_processors_stats()
-    print("\nSending up to three values per processor to CSV:")
+    print("\nSend 3 processed data from each processor to a CSV plugin:")
     stream.output_pipeline(3, CSVExportPlugin())
+    print()
     stream.print_processors_stats()
     second: list[Any] = [
         21, ["I love AI", "LLMs are wonderful", "Stay healthy"],
@@ -96,9 +99,10 @@ if __name__ == "__main__":
           "Certificate expires in 10 days"}],
         [32, 42, 64, 84, 128, 168], "World hello",
     ]
-    print("\nSending second batch:")
+    print(f"\nSend another batch of data: {second}\n")
     stream.process_stream(second)
     stream.print_processors_stats()
-    print("\nSending up to five values per processor to JSON:")
+    print("\nSend 5 processed data from each processor to a JSON plugin:")
     stream.output_pipeline(5, JSONExportPlugin())
+    print()
     stream.print_processors_stats()
