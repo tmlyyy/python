@@ -32,10 +32,8 @@ if __name__ == "__main__":
     normal = NormalStrategy()
     aggressive = AggressiveStrategy()
     print("Tournament 0 (basic)")
-    print(" [ (Flameling+Normal), (Shiftling+Aggressive) ]")
     battle([(flame, normal), (transform, aggressive)])
     print("\nTournament 1 (error)")
-    print(" [ (Shiftling+Aggressive), (Flameling+Aggressive) ]")
     try:
         battle([(transform, aggressive), (flame, aggressive)])
     except InvalidStrategyError as error:

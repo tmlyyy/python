@@ -38,11 +38,9 @@ class DataStream:
 
 if __name__ == "__main__":
     print("=== Code Nexus - Data Stream ===")
-    print("\nInitialize Data Stream...")
     stream = DataStream()
     stream.print_processors_stats()
     numeric = NumericProcessor()
-    print("\nRegistering Numeric Processor")
     stream.register_processor(numeric)
     batch: list[Any] = [
         "Hello world", [3.14, -1, 2.71],
@@ -51,20 +49,18 @@ if __name__ == "__main__":
          {"log_level": "INFO", "log_message": "User wil is connected"}],
         42, ["Hi", "five"],
     ]
-    print(f"\nSend first batch of data on stream: {batch}")
+    print("\nSending first batch:")
     stream.process_stream(batch)
     stream.print_processors_stats()
     text = TextProcessor()
     logs = LogProcessor()
-    print("\nRegistering other data processors")
     stream.register_processor(text)
     stream.register_processor(logs)
-    print("Send the same batch again")
+    print("\nSending the same batch again:")
     stream.process_stream(batch)
     stream.print_processors_stats()
-    print("\nConsume some elements from the data processors: "
-          "Numeric 3, Text 2, Log 1")
     for processor, count in [(numeric, 3), (text, 2), (logs, 1)]:
         for _ in range(count):
             processor.output()
+    print("\nAfter consuming values:")
     stream.print_processors_stats()
